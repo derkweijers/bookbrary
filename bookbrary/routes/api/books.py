@@ -1,6 +1,7 @@
 from flask import Blueprint, request, current_app as app
 from marshmallow import ValidationError
 from bookbrary.deps import db
+from flask_jwt_extended import jwt_required
 
 from bookbrary.models.books import Book
 from bookbrary.schemas import books_schema, BookSchema, book_schema
@@ -15,6 +16,7 @@ def index() -> list[BookSchema]:
 
 
 @books.post(rule="/")
+@jwt_required()
 def create():
     if not request.json:
         return {"message": "Request must be in JSON format"}, 400
