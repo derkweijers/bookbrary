@@ -18,7 +18,7 @@ def index() -> list[BookSchema]:
 def create():
     if not request.json:
         return {"message": "Request must be in JSON format"}, 400
-    
+
     # Validate the data with Marshmallow and save the book to the database
     try:
         check_book_exists = Book.query.filter_by(title=request.json["title"]).one()

@@ -2,6 +2,7 @@ from os import path
 from flask import Flask
 
 from bookbrary.deps import ma, db, migrate, jwt
+from bookbrary.models import * # noqa - needed to detect migrations
 
 from bookbrary.routes.api import books as books_blueprint, auth as auth_blueprint
 
@@ -16,7 +17,6 @@ def create_app() -> Flask:
     migrate.init_app(
         app=app, db=db, directory=path.join(path.dirname(__file__), "migrations")
     )
-    from bookbrary.models import books  # noqa: F401 - Needed to register models
 
     jwt.init_app(app=app)
 
