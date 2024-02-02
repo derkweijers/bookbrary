@@ -5,6 +5,7 @@ from bookbrary.services import user_service
 
 user_cli = AppGroup(name="user", help="User related commands.")
 
+
 @user_cli.command(name="create", help="Create a new user.")
 @click.argument("username")
 @click.argument("password")

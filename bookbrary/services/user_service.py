@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash
 
 from bookbrary.deps import db
 
+
 class UserService:
     def create_user(self, username: str, password: str) -> User:
         user = User()
@@ -13,7 +14,6 @@ class UserService:
         db.session.commit()
 
         return user
-    
 
     def get_user_by_username(self, username: str):
         return User.query.filter_by(username=username).first()
