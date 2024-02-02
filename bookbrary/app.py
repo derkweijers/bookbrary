@@ -2,7 +2,7 @@ from os import path
 from flask import Flask
 
 from bookbrary.deps import ma, db, migrate, jwt
-from bookbrary.models import * # noqa - needed to detect migrations
+from bookbrary.models import *  # noqa - needed to detect migrations
 
 from bookbrary.routes.api import books as books_blueprint, auth as auth_blueprint
 

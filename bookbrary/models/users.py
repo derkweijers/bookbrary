@@ -8,4 +8,3 @@ class User(db.Model):
     password: Mapped[str] = mapped_column(nullable=False)
     created_at: Mapped[str] = mapped_column()
     updated_at: Mapped[str] = mapped_column()
-
