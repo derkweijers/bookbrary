@@ -1,9 +1,9 @@
 from os import path
 from flask import Flask
 
-from bookbrary.deps import ma, db, migrate
+from bookbrary.deps import ma, db, migrate, jwt
 
-from bookbrary.routes.api import books as books_blueprint
+from bookbrary.routes.api import books as books_blueprint, auth as auth_blueprint
 
 
 def create_app() -> Flask:
@@ -18,7 +18,10 @@ def create_app() -> Flask:
     )
     from bookbrary.models import books  # noqa: F401 - Needed to register models
 
+    jwt.init_app(app=app)
+
     # Register blueprints
+    app.register_blueprint(blueprint=auth_blueprint)
     app.register_blueprint(blueprint=books_blueprint)
 
     return app
