@@ -5,6 +5,7 @@ from bookbrary.deps import ma, db, migrate, jwt
 from bookbrary.models import *  # noqa - needed to detect migrations
 
 from bookbrary.routes.api import books as books_blueprint, auth as auth_blueprint
+from bookbrary.cli import user_cli
 
 
 def create_app() -> Flask:
@@ -23,5 +24,7 @@ def create_app() -> Flask:
     # Register blueprints
     app.register_blueprint(blueprint=auth_blueprint)
     app.register_blueprint(blueprint=books_blueprint)
+
+    app.cli.add_command(cmd=user_cli)
 
     return app
