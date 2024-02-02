@@ -1,3 +1,3 @@
-from .books import Book, book_schema, books_schema
+from .books import BookSchema, book_schema, books_schema
 
-__all__ = ["Book", "book_schema", "books_schema"]
+__all__ = ["BookSchema", "book_schema", "books_schema"]
