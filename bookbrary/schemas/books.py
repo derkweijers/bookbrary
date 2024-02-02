@@ -2,6 +2,7 @@ from bookbrary.deps import ma
 
 from bookbrary.models.books import Book as BookModel
 
+
 class BookSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = BookModel
