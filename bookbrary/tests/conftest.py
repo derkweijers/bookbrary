@@ -1,5 +1,6 @@
 from typing import Any, Generator
 from flask import Flask
+from flask.testing import FlaskClient
 import pytest
 from bookbrary.app import create_app
 from bookbrary.services import user_service
@@ -22,11 +23,11 @@ def app() -> Generator[Flask, Any, None]:
 
 
 @pytest.fixture()
-def client(app):
+def client(app: Flask) -> FlaskClient:
     return app.test_client()
 
 
 @pytest.fixture()
-def user(app) -> Any:
+def user(app: Flask) -> Any:
     with app.app_context():
         return user_service.create_user("testuser", "validpassword")
