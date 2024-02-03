@@ -9,9 +9,11 @@ from bookbrary.deps import db
 @pytest.fixture
 def app() -> Generator[Flask, Any, None]:
     app = create_app()
-    app.config.update({
-        "TESTING": True,
-    })
+    app.config.update(
+        {
+            "TESTING": True,
+        }
+    )
 
     with app.app_context():
         db.create_all()
