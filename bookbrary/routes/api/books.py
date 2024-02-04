@@ -23,7 +23,8 @@ def create():
 
     # Validate the data with Marshmallow and save the book to the database
     try:
-        check_book_exists = Book.query.filter_by(title=request.json["title"]).one()
+        check_book_exists = Book.query.filter_by(title=request.json["title"]).first()
+
         if check_book_exists:
             return {"message": "Book already exists"}, 409
 
