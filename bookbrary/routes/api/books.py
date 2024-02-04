@@ -18,7 +18,7 @@ def index() -> list[BookSchema]:
 @books.post(rule="/")
 @jwt_required()
 def create():
-    if not request.json:
+    if request.json is None:
         return {"message": "Request must be in JSON format"}, 400
 
     # Validate the data with Marshmallow and save the book to the database
