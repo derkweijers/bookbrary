@@ -1,6 +1,5 @@
 from flask import Blueprint, request, current_app as app
 from marshmallow import ValidationError
-from bookbrary.deps import db
 from flask_jwt_extended import jwt_required
 
 from bookbrary.models.books import Book
@@ -24,7 +23,9 @@ def create():
 
     # Validate the data with Marshmallow and save the book to the database
     try:
-        check_book_exists = book_service.get_book_by_title(title=request.json.get("title"))
+        check_book_exists = book_service.get_book_by_title(
+            title=request.json.get("title")
+        )
 
         if check_book_exists:
             return {"message": "Book already exists"}, 409
