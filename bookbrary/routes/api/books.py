@@ -5,6 +5,7 @@ from flask_jwt_extended import jwt_required
 
 from bookbrary.models.books import Book
 from bookbrary.schemas import books_schema, BookSchema, book_schema
+from bookbrary.services import book_service
 
 
 books = Blueprint(name="books", import_name=__name__, url_prefix="/api/books")
@@ -23,16 +24,13 @@ def create():
 
     # Validate the data with Marshmallow and save the book to the database
     try:
-        check_book_exists = Book.query.filter_by(title=request.json["title"]).first()
+        check_book_exists = book_service.get_book_by_title(title=request.json.get("title"))
 
         if check_book_exists:
             return {"message": "Book already exists"}, 409
 
         validated_book = BookSchema().load(data=request.json)
-        book = Book(**validated_book)
-
-        db.session.add(instance=book)
-        db.session.commit()
+        book = book_service.create_book(**validated_book)
 
         return book_schema.dump(obj=book), 201
     except ValidationError as e:

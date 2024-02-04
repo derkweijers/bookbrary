@@ -4,7 +4,7 @@ from flask.testing import FlaskClient
 import pytest
 
 from bookbrary.app import create_app
-from bookbrary.services import user_service
+from bookbrary.services import user_service, book_service
 from bookbrary.deps import db
 from bookbrary.models import Book, User
 
@@ -38,15 +38,13 @@ def user(app: Flask) -> User:
 @pytest.fixture()
 def book(app: Flask) -> Book:
     with app.app_context():
-        book = Book()
-        book.title = "Test Book"
-        book.author = "Test Author"
-        book.year = 2021
-        book.genre = "Test Genre"
-        book.created_at = "2021-01-01"
-        book.updated_at = "2021-01-01"
-
-        db.session.add(instance=book)
-        db.session.commit()
+        book = book_service.create_book(
+            title="Test Book",
+            author="Test Author",
+            year=2021,
+            genre="Test Genre",
+            created_at="2021-01-01",
+            updated_at="2021-01-01",
+        )
 
         return book
