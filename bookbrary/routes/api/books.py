@@ -2,8 +2,7 @@ from flask import Blueprint, request, make_response, jsonify
 from marshmallow import ValidationError
 from flask_jwt_extended import jwt_required
 
-from bookbrary.models.books import Book
-from bookbrary.schemas import books_schema, BookSchema, book_schema
+from bookbrary.schemas import BookSchema, book_schema
 from bookbrary.services import book_service
 
 
@@ -11,8 +10,8 @@ books = Blueprint(name="books", import_name=__name__, url_prefix="/api/books")
 
 
 @books.get(rule="/")
-def index() -> list[BookSchema]:
-    return books_schema.dump(obj=Book.query.all())
+def index():
+    return book_service.get_all_books()
 
 
 @books.post(rule="/")
