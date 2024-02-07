@@ -9,8 +9,9 @@ auth = Blueprint(name="auth", import_name=__name__, url_prefix="/api/auth")
 
 @auth.post(rule="/login")
 def login() -> Response:
-    if not request.json:
-        return make_response(jsonify({"msg": "Missing JSON in request"}), 400)
+    assert request.json, {
+        "msg": "Missing JSON in request"  # Will probably never reach this (since Flask handles this), but it makes sure that the JSON type is not None
+    }
 
     username = request.json.get("username")
     password = request.json.get("password")

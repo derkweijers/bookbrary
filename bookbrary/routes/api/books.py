@@ -18,10 +18,9 @@ def index() -> list[BookSchema]:
 @books.post(rule="/")
 @jwt_required()
 def create():
-    if request.json is None:
-        return make_response(
-            jsonify({"message": "Request must be in JSON format"}), 400
-        )
+    assert request.json, {
+        "message": "Missing JSON in request"
+    }  # Will probably never reach this (since Flask handles this), but it makes sure that the JSON type is not None
 
     # Validate the data with Marshmallow and save the book to the database
     try:
