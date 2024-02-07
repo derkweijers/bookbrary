@@ -1,4 +1,4 @@
-from flask import Blueprint, request, current_app as app
+from flask import Blueprint, request, make_response, jsonify
 from marshmallow import ValidationError
 from flask_jwt_extended import jwt_required
 
@@ -19,7 +19,9 @@ def index() -> list[BookSchema]:
 @jwt_required()
 def create():
     if request.json is None:
-        return {"message": "Request must be in JSON format"}, 400
+        return make_response(
+            jsonify({"message": "Request must be in JSON format"}), 400
+        )
 
     # Validate the data with Marshmallow and save the book to the database
     try:
@@ -28,14 +30,11 @@ def create():
         )
 
         if check_book_exists:
-            return {"message": "Book already exists"}, 409
+            return make_response(jsonify({"message": "Book already exists"}), 409)
 
         validated_book = BookSchema().load(data=request.json)
         book = book_service.create_book(**validated_book)
 
-        return book_schema.dump(obj=book), 201
+        return make_response(jsonify(book_schema.dump(obj=book)), 201)
     except ValidationError as e:
         return e.messages, 400
-    except Exception as e:
-        app.logger.error(msg=f"{type(e).__name__}: {e}")
-        return {"message": "An error occurred while processing the request"}, 500
