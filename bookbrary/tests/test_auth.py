@@ -19,3 +19,11 @@ def test_login_valid_credentials(client, user) -> None:
     )
     assert response.status_code == 200
     assert "access_token" in response.json
+
+
+def test_login_no_data(client) -> None:
+    response = client.post(
+        "/api/auth/login", headers={"Content-Type": "application/json"}
+    )
+    assert response.status_code == 400
+    print(response.json)

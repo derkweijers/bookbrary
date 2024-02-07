@@ -1,4 +1,4 @@
 providers = ["python"]
 
 [start]
-cmd = "gunicorn wsgi:application"
+cmd = "flask db upgrade && gunicorn wsgi:application"
