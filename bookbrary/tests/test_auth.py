@@ -1,5 +1,7 @@
 from flask.testing import FlaskClient
 
+from bookbrary.models.users import User
+
 
 def test_login_invalid_credentials(client: FlaskClient) -> None:
     response = client.post(
@@ -12,7 +14,7 @@ def test_login_invalid_credentials(client: FlaskClient) -> None:
     assert response.status_code == 400
 
 
-def test_login_valid_credentials(client: FlaskClient, user) -> None:
+def test_login_valid_credentials(client: FlaskClient, user: User) -> None:
     response = client.post(
         "/api/auth/login",
         json={

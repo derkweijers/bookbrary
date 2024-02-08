@@ -1,5 +1,8 @@
 from flask.testing import FlaskClient
 import pytest
+from bookbrary.models.books import Book
+
+from bookbrary.models.users import User
 
 
 def test_get_all_books(client: FlaskClient) -> None:
@@ -15,7 +18,7 @@ def test_get_all_books(client: FlaskClient) -> None:
         ("Test Book", "2021-01-01", 409),
     ],
 )
-def test_create_book(client: FlaskClient, user, book, test_title, test_created_at, expected) -> None:
+def test_create_book(client: FlaskClient, user: User, book: Book, test_title, test_created_at, expected) -> None:
     auth_response = client.post(
         "/api/auth/login",
         json={
@@ -41,7 +44,7 @@ def test_create_book(client: FlaskClient, user, book, test_title, test_created_a
     assert response.status_code == expected
 
 
-def test_no_data(client: FlaskClient, user) -> None:
+def test_no_data(client: FlaskClient, user: User) -> None:
     auth_response = client.post(
         "/api/auth/login",
         json={
