@@ -18,7 +18,9 @@ def test_get_all_books(client: FlaskClient) -> None:
         ("Test Book", "2021-01-01", 409),
     ],
 )
-def test_create_book(client: FlaskClient, user: User, book: Book, test_title, test_created_at, expected) -> None:
+def test_create_book(
+    client: FlaskClient, user: User, book: Book, test_title, test_created_at, expected
+) -> None:
     auth_response = client.post(
         "/api/auth/login",
         json={
