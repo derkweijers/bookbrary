@@ -11,3 +11,5 @@ user_cli = AppGroup(name="user", help="User related commands.")
 @click.argument("password")
 def create_user(username: str, password: str) -> None:
     user_service.create_user(username=username, password=password)
+
+    return click.echo(f"User {username} created successfully.")

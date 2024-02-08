@@ -1,4 +1,9 @@
-def test_login_invalid_credentials(client) -> None:
+from flask.testing import FlaskClient
+
+from bookbrary.models.users import User
+
+
+def test_login_invalid_credentials(client: FlaskClient) -> None:
     response = client.post(
         "/api/auth/login",
         json={
@@ -9,7 +14,7 @@ def test_login_invalid_credentials(client) -> None:
     assert response.status_code == 400
 
 
-def test_login_valid_credentials(client, user) -> None:
+def test_login_valid_credentials(client: FlaskClient, user: User) -> None:
     response = client.post(
         "/api/auth/login",
         json={
@@ -21,9 +26,8 @@ def test_login_valid_credentials(client, user) -> None:
     assert "access_token" in response.json
 
 
-def test_login_no_data(client) -> None:
+def test_login_no_data(client: FlaskClient) -> None:
     response = client.post(
         "/api/auth/login", headers={"Content-Type": "application/json"}
     )
     assert response.status_code == 400
-    print(response.json)
