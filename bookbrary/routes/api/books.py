@@ -2,7 +2,7 @@ from flask import Blueprint, request, make_response, jsonify
 from marshmallow import ValidationError
 from flask_jwt_extended import jwt_required
 
-from bookbrary.schemas import BookSchema, book_schema
+from bookbrary.schemas import BookSchema, book_schema, books_schema
 from bookbrary.services import book_service
 
 
@@ -11,7 +11,8 @@ books = Blueprint(name="books", import_name=__name__, url_prefix="/api/books")
 
 @books.get(rule="/")
 def index():
-    return book_service.get_all_books()
+    books = book_service.get_all_books()
+    return make_response(books_schema.dump(obj=books), 200)
 
 
 @books.post(rule="/")
@@ -33,6 +34,6 @@ def create():
         validated_book = BookSchema().load(data=request.json)
         book = book_service.create_book(**validated_book)
 
-        return make_response(jsonify(book_schema.dump(obj=book)), 201)
+        return make_response(book_schema.dump(obj=book), 201)
     except ValidationError as e:
         return e.messages, 400
