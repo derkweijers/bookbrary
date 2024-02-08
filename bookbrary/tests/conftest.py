@@ -1,6 +1,6 @@
 from typing import Any, Generator
 from flask import Flask
-from flask.testing import FlaskClient
+from flask.testing import FlaskClient, FlaskCliRunner
 import pytest
 
 from bookbrary.app import create_app
@@ -22,6 +22,11 @@ def app() -> Generator[Flask, Any, None]:
         db.create_all()
 
     yield app
+
+
+@pytest.fixture
+def runner(app: Flask) -> FlaskCliRunner:
+    return app.test_cli_runner()
 
 
 @pytest.fixture()
