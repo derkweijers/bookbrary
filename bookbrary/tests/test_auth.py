@@ -23,6 +23,7 @@ def test_login_valid_credentials(client: FlaskClient, user: User) -> None:
         },
     )
     assert response.status_code == 200
+    assert response.json
     assert "access_token" in response.json
 
 

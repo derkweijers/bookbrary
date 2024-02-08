@@ -29,7 +29,8 @@ def test_create_book(
         },
     )
     assert auth_response.status_code == 200
-    assert "access_token" in auth_response.json
+    assert auth_response.json
+    assert auth_response.json["access_token"]
 
     response = client.post(
         "/api/books/",
@@ -54,6 +55,10 @@ def test_no_data(client: FlaskClient, user: User) -> None:
             "password": "validpassword",
         },
     )
+    assert auth_response.status_code == 200
+    assert auth_response.json
+    assert auth_response.json["access_token"]
+
     response = client.post(
         "/api/books/",
         headers={
@@ -62,3 +67,8 @@ def test_no_data(client: FlaskClient, user: User) -> None:
         },
     )
     assert response.status_code == 400
+
+
+def test_get_single_book(client: FlaskClient, book: Book) -> None:
+    response = client.get(f"/api/books/{book.id}")
+    assert response.status_code == 200

@@ -30,3 +30,6 @@ class BookService:
 
     def get_book_by_title(self, title: str) -> Book | None:
         return Book.query.filter_by(title=title).first()
+
+    def get_book_by_id(self, book_id: int) -> Book | None:
+        return Book.query.filter_by(id=book_id).first()
