@@ -1,7 +1,8 @@
+from flask.testing import FlaskClient
 import pytest
 
 
-def test_get_all_books(client) -> None:
+def test_get_all_books(client: FlaskClient) -> None:
     response = client.get("/api/books/")
     assert response.status_code == 200
 
@@ -14,7 +15,7 @@ def test_get_all_books(client) -> None:
         ("Test Book", "2021-01-01", 409),
     ],
 )
-def test_create_book(client, user, book, test_title, test_created_at, expected) -> None:
+def test_create_book(client: FlaskClient, user, book, test_title, test_created_at, expected) -> None:
     auth_response = client.post(
         "/api/auth/login",
         json={
@@ -40,7 +41,7 @@ def test_create_book(client, user, book, test_title, test_created_at, expected) 
     assert response.status_code == expected
 
 
-def test_no_data(client, user) -> None:
+def test_no_data(client: FlaskClient, user) -> None:
     auth_response = client.post(
         "/api/auth/login",
         json={
