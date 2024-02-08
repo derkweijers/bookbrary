@@ -1,1 +1,1 @@
-web: gunicorn wsgi:application --bind 0.0.0.0:5000 --access-logfile -
+web: gunicorn wsgi:application --access-logfile -
