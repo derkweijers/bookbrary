@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_rule:
+        description: 'Version to bump (major, minor, patch)'
+        required: true
+        type: choice
+        options:
+          - "major"
+          - "minor"
+          - "patch"
+        default: "minor"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install Poetry
+        run: |
+          pip install ${{ github.event.inputs.version_rule }}
+
+      - name: Update the version
+        run: |
+          poetry version minor
+
+      - name: Build and publish
+        run: |
+          poetry install --no-dev
+          poetry build
+          poetry publish
