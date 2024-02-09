@@ -3,10 +3,15 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: 'Version to release'
+      version_rule:
+        description: 'Version to bump (major, minor, patch)'
         required: true
-        default: 'minor'
+        type: choice
+        options:
+          - "major"
+          - "minor"
+          - "patch"
+        default: "minor"
 
 jobs:
   release:
@@ -23,7 +28,7 @@ jobs:
 
       - name: Install Poetry
         run: |
-          pip install poetry
+          pip install ${{ github.event.inputs.version_rule }}
 
       - name: Update the version
         run: |
