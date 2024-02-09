@@ -12,11 +12,6 @@ from bookbrary.models import Book, User
 @pytest.fixture
 def app() -> Generator[Flask, Any, None]:
     app = create_app()
-    app.config.update(
-        {
-            "TESTING": True,
-        }
-    )
 
     with app.app_context():
         db.create_all()
@@ -29,18 +24,18 @@ def runner(app: Flask) -> FlaskCliRunner:
     return app.test_cli_runner()
 
 
-@pytest.fixture()
+@pytest.fixture
 def client(app: Flask) -> FlaskClient:
     return app.test_client()
 
 
-@pytest.fixture()
+@pytest.fixture
 def user(app: Flask) -> User:
     with app.app_context():
         return user_service.create_user("testuser", "validpassword")
 
 
-@pytest.fixture()
+@pytest.fixture
 def book(app: Flask) -> Book:
     with app.app_context():
         book = book_service.create_book(

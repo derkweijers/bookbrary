@@ -1,8 +1,8 @@
-from flask import Blueprint, request, make_response, jsonify
+from flask import Blueprint, Response, request, make_response, jsonify
 from marshmallow import ValidationError
 from flask_jwt_extended import jwt_required
 
-from bookbrary.schemas import BookSchema, book_schema, books_schema
+from bookbrary.schemas import book_schema, books_schema
 from bookbrary.services import book_service
 
 
@@ -31,9 +31,19 @@ def create():
         if check_book_exists:
             return make_response(jsonify({"message": "Book already exists"}), 409)
 
-        validated_book = BookSchema().load(data=request.json)
+        validated_book = book_schema.load(data=request.json)
         book = book_service.create_book(**validated_book)
 
         return make_response(book_schema.dump(obj=book), 201)
     except ValidationError as e:
         return e.messages, 400
+
+
+@books.get(rule="/<int:book_id>")
+def show(book_id: int) -> Response:
+    book = book_service.get_book_by_id(book_id=book_id)
+
+    if not book:
+        return make_response(jsonify({"message": "Book not found"}), 404)
+
+    return make_response(book_schema.dump(obj=book), 200)

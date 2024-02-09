@@ -15,5 +15,5 @@ class UserService:
 
         return user
 
-    def get_user_by_username(self, username: str):
+    def get_user_by_username(self, username: str) -> User | None:
         return User.query.filter_by(username=username).first()
