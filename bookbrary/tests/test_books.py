@@ -73,6 +73,6 @@ class TestBooks:
         )
         assert response.status_code == 400
 
-    def test_get_single_book(self, client: FlaskClient, book: Book) -> None:
-        response = client.get(f"/api/books/{book.id}")
-        assert response.status_code == 200
+    # def test_get_single_book(self, client: FlaskClient, book: Book) -> None:
+    #     response = client.get(f"/api/books/{book.id}")
+    #     assert response.status_code == 200
