@@ -28,11 +28,11 @@ jobs:
 
       - name: Install Poetry
         run: |
-          pip install ${{ github.event.inputs.version_rule }}
+          pip install poetry
 
       - name: Update the version
         run: |
-          poetry version minor
+          poetry version ${{ github.event.inputs.version_rule }}
 
       - name: Build and publish
         run: |
