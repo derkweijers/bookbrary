@@ -46,11 +46,12 @@ jobs:
         with:
           message: "chore(ci): bumped the version to ${{ steps.bump_version.outputs.VERSION }}"
           new_branch: "chore/version-bump-${{ steps.bump_version.outputs.VERSION }}"
+          default_author: github_actions
 
       - name: create pull request
         run: gh pr create -B main -H "chore/version-bump-${{ steps.bump_version.outputs.VERSION }}" --title 'Bump the version to ${{ steps.bump_version.outputs.VERSION }}' --body 'Created by the `Release` Github action'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
       # - name: Build and publish
       #   run: |
