@@ -37,14 +37,21 @@ jobs:
           poetry version ${{ github.event.inputs.version_rule }}
           echo VERSION=$(poetry version -s) >> "$GITHUB_OUTPUT"
 
-      - name: Build and publish
-        run: |
-          poetry install --no-dev
-          poetry build
-          # poetry publish
-
-      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+      # First create a PR for the new version before pushing the artifacts. If this fails, we can just rerun the job since there are no artifacts uploaded.
+      - name: commit the new pyproject.toml with the new version
+        uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         with:
-          message: "Bump version to ${{ steps.bump_version.outputs.VERSION }}"
-          add: "pyproject.toml"
-          default_author: github_actions
+          message: "chore(ci): bumped the version to ${{ steps.bump_version.outputs.VERSION }}"
+          new_branch: "chore/version-bump"
+
+      # - name: create pull request
+      #   run: gh pr create -B main -H branch_to_merge --title '(ci)' --body 'Created by Github action'
+      #   env:
+      #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Build and publish
+      #   run: |
+      #     poetry install --no-dev
+      #     poetry build
+      #     # poetry publish
+
