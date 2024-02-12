@@ -55,6 +55,8 @@ jobs:
 
       - name: merge pull request
         run: gh pr merge "chore/version-bump-${{ steps.bump_version.outputs.VERSION }}" --delete-branch --squash --admin --subject "Bump the version to ${{ steps.bump_version.outputs.VERSION }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: Build and publish
       #   run: |
