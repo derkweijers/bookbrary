@@ -47,8 +47,8 @@ jobs:
 
       - name: create pull request
         run: gh pr create -B main -H "chore/version-bump-${{ steps.bump_version.outputs.VERSION }}" --title 'Bump the version to ${{ steps.bump_version.outputs.VERSION }}' --body 'Created by the `Release` Github action'
-        # env:
-        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: Build and publish
       #   run: |
