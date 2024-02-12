@@ -24,18 +24,25 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.x
+          python-version: 3.11
 
       - name: Install Poetry
         run: |
-          pip install ${{ github.event.inputs.version_rule }}
+          pip install poetry
 
       - name: Update the version
+        id: bump_version
         run: |
-          poetry version minor
+          poetry version ${{ github.event.inputs.version_rule }}
+          echo VERSION=$(poetry version -s) >> "$GITHUB_OUTPUT"
 
       - name: Build and publish
         run: |
           poetry install --no-dev
           poetry build
-          poetry publish
+          # poetry publish
+
+      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+        with:
+          message: "Bump version to ${{ steps.bump_version.outputs.VERSION }}"
+          add: "pyproject.toml"
