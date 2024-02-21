@@ -1,9 +1,6 @@
 name: Release
 
 on:
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
     inputs:
       version_rule:
@@ -61,8 +58,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Build and publish
-      #   run: |
-      #     poetry install --no-dev
-      #     poetry build
-      #     # poetry publish
+      - name: Build and publish
+        run: |
+          poetry install --no-dev
+          poetry build
+          # poetry publish
