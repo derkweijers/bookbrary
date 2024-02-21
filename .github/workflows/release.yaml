@@ -64,3 +64,7 @@ jobs:
           poetry install --no-dev
           poetry build
           # poetry publish
+
+      - name: Create a release on GitHub
+        run: |
+          gh release create ${{ steps.bump_version.outputs.VERSION }} dist/* --title "Release ${{ steps.bump_version.outputs.VERSION }}" --notes "Release ${{ steps.bump_version.outputs.VERSION }}"
