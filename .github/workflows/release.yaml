@@ -68,3 +68,5 @@ jobs:
       - name: Create a release on GitHub
         run: |
           gh release create ${{ steps.bump_version.outputs.VERSION }} dist/* --title "Release ${{ steps.bump_version.outputs.VERSION }}" --notes "Release ${{ steps.bump_version.outputs.VERSION }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
