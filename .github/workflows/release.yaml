@@ -48,6 +48,7 @@ jobs:
           new_branch: "chore/version-bump-${{ steps.bump_version.outputs.VERSION }}"
           default_author: github_actions
 
+      # Create a PR for the new version since we don't want to push directly to main
       - name: create pull request
         run: gh pr create -B main -H "chore/version-bump-${{ steps.bump_version.outputs.VERSION }}" --title 'Bump the version to ${{ steps.bump_version.outputs.VERSION }}' --body 'Created by the `Release` Github action'
         env:
