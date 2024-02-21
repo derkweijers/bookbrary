@@ -3,7 +3,7 @@ name: Release
 on:
   pull_request:
     branches:
-      - releases
+      - main
   workflow_dispatch:
     inputs:
       version_rule:
@@ -57,7 +57,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: merge pull request
-        run: gh pr merge "chore/version-bump-${{ steps.bump_version.outputs.VERSION }}" --delete-branch --squash --auto --admin --subject "Bump the version to ${{ steps.bump_version.outputs.VERSION }}"
+        run: gh pr merge "chore/version-bump-${{ steps.bump_version.outputs.VERSION }}" --delete-branch --squash --admin --subject "Bump the version to ${{ steps.bump_version.outputs.VERSION }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
