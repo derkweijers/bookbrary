@@ -1,9 +1,10 @@
 name: Release
 on:
     pull_request:
-        types: [closed]
+        types:
+            - closed
         branches:
-            - chore/version-bump-*
+            - 'chore/version-bump-**'
 
 jobs:
     release:
