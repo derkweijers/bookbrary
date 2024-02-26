@@ -53,20 +53,3 @@ jobs:
         run: gh pr create -B main -H "chore/version-bump-${{ steps.bump_version.outputs.VERSION }}" --title 'Bump the version to ${{ steps.bump_version.outputs.VERSION }}' --body 'Created by the `Release` Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: merge pull request
-        run: gh pr merge "chore/version-bump-${{ steps.bump_version.outputs.VERSION }}" --delete-branch --squash --admin --subject "Bump the version to ${{ steps.bump_version.outputs.VERSION }}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and publish
-        run: |
-          poetry install --no-dev
-          poetry build
-          # poetry publish
-
-      - name: Create a release on GitHub
-        run: |
-          gh release create ${{ steps.bump_version.outputs.VERSION }} dist/* --title "Release ${{ steps.bump_version.outputs.VERSION }}" --notes "Release ${{ steps.bump_version.outputs.VERSION }}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
