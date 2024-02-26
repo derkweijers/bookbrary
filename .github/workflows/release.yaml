@@ -14,11 +14,19 @@ jobs:
           issues: write
 
         steps:
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: 3.11
+
+            - name: Install Poetry
+              run: pip install poetry
+                
             - name: Build and publish
               run: |
                 poetry install --no-dev
                 poetry build
-                # poetry publish
+                # poetry publish --build --no-interaction
 
             - name: Create a release on GitHub
               run: gh release create ${{ steps.bump_version.outputs.VERSION }} dist/* --title "Release ${{ steps.bump_version.outputs.VERSION }}" --notes "Release ${{ steps.bump_version.outputs.VERSION }}"
