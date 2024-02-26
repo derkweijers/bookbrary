@@ -3,12 +3,11 @@ on:
     pull_request:
         types:
             - closed
-        branches:
-            - 'chore/version-bump-**'
 
 jobs:
     release:
         runs-on: ubuntu-latest
+        if:  startsWith(github.head_ref, 'chore/version-bump-*')
         permissions:
           contents: write
           pull-requests: write
