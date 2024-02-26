@@ -50,6 +50,6 @@ jobs:
 
       # Create a PR for the new version since we don't want to push directly to main
       - name: create pull request
-        run: gh pr create -B main -H "chore/version-bump-${{ steps.bump_version.outputs.VERSION }}" --title 'Bump the version to ${{ steps.bump_version.outputs.VERSION }}' --body 'Created by the `Release` Github action'
+        run: gh pr create -B main -H "chore/version-bump-${{ steps.bump_version.outputs.VERSION }}" --title 'Bump the version to ${{ steps.bump_version.outputs.VERSION }}' --body 'Created by the `Setup Release` Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

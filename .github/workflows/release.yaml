@@ -3,6 +3,11 @@ on:
     pull_request:
         types:
             - closed
+    workflow_dispatch:
+        inputs:
+            version:
+                description: 'Version to release'
+                required: true
 
 jobs:
     release:
@@ -32,6 +37,6 @@ jobs:
                 # poetry publish --build --no-interaction
 
             - name: Create a release on GitHub
-              run: gh release create ${{ steps.bump_version.outputs.VERSION }} dist/* --title "Release ${{ steps.bump_version.outputs.VERSION }}" --notes "Release ${{ steps.bump_version.outputs.VERSION }}"
+              run: gh release create ${{ inputs.version }} dist/* --title "Release ${{ inputs.version }}" --notes "Release ${{ inputs.version }}"
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
