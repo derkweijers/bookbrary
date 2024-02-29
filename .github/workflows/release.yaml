@@ -3,7 +3,6 @@ on:
     pull_request:
         types:
             - closed
-
 jobs:
     release:
         runs-on: ubuntu-latest
@@ -24,6 +23,10 @@ jobs:
 
             - name: Install Poetry
               run: pip install poetry
+
+            - name: read the version from pyproject.toml
+              id: read_version
+              run: echo VERSION=$(poetry version -s) >> "$GITHUB_OUTPUT"
                 
             - name: Build and publish
               run: |
@@ -32,6 +35,6 @@ jobs:
                 # poetry publish --build --no-interaction
 
             - name: Create a release on GitHub
-              run: gh release create ${{ steps.bump_version.outputs.VERSION }} dist/* --title "Release ${{ steps.bump_version.outputs.VERSION }}" --notes "Release ${{ steps.bump_version.outputs.VERSION }}"
+              run: gh release create ${{ steps.read_version.outputs.VERSION }} dist/* --title "Release ${{ steps.read_version.outputs.VERSION }}" --notes "Release ${{ steps.read_version.outputs.VERSION }}"
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
